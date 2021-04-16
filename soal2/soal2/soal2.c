@@ -104,7 +104,6 @@ void kategoriFiles()
 {
    char tujuan[100]="/home/rayhandapis/modul2/petshop";
 //    char asal[100]="/home/rayhandapis/Downloads/pets.zip";
-
    int status;
  
    pid_t parentid;
@@ -162,14 +161,14 @@ void kategoriFiles()
                        strcpy(lokasitxt, path);
                        stpcpy(pathtxt, lokasitxt);
 
-                      char namaditxt[100], value[100];
-                      strcpy(namaditxt,namaHewan); //ngekopi namahewan di namaditxt biar yang dipake namaditxt
+                       char namaditxt[100], value[100];
+                       strcpy(namaditxt,namaHewan); //ngekopi namahewan di namaditxt biar yang dipake namaditxt
 
                        //2c memindahkan to folder
                        strcat(namaHewan, ".jpg");
                        strcat(path2, hasil2);
 
-                       char *kopikeFolder[] = {"copy", "-r", path2, path, NULL};
+                       char *kopikeFolder[] = {"cp", "-r", path2, path, NULL};
                        eksekusi("/bin/cp", kopikeFolder);
 
                        //2c rubah nama 
@@ -178,28 +177,32 @@ void kategoriFiles()
                        strcat(path3, hasil2);
                        strcat(path, "/");
                        strcat(path, namaHewan);
-
+                      //  printf("%s\n", path);
                        char *ubahnama[] = {"ubahnama", path3, path, NULL};
                        eksekusi("/bin/mv", ubahnama);
 
                        //2e keterangan.txt
+                      
+                       stpcpy(pathtxt, lokasitxt);
                        strcat(pathtxt, "/keterangan.txt");
                        strcpy(value, "nama : ");
                        strcat(value, namaditxt);
-                       strcat(value, "\n");
-                       strcat(value, "umur : ");
+                       strcat(value, "\numur : ");
                        strcat(value, umurNya);
                        strcat(value, "tahun\n\n");
+                      //  printf("%s\n", lokasitxt);
                        FILE *asal = fopen(pathtxt, "a");
                        fputs(value, asal);
                        fclose(asal);
 
                    }
                }
+              
               // ngapusgaguna();
            }
+           closedir(direk);
        }
-       closedir(direk);
+      //  closedir(direk);
     }
 
    else
@@ -239,6 +242,10 @@ void ngapusgaguna()
            }
        }
       closedir(direk);
+   }
+   else 
+   {
+     ((wait(&status)) > 0);
    }
 }
 int main()
