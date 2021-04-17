@@ -99,9 +99,10 @@ void unzipandRemove()
       }
 
  }
-
+int keterangantxt(char *namaHewan, char *umurNya, char *namaditxt);//declaration of functions
 void kategoriFiles()
 {
+   int keterangantxt(char *namaHewan, char *umurNya, char *namaditxt);
    char tujuan[100]="/home/rayhandapis/modul2/petshop";
 //    char asal[100]="/home/rayhandapis/Downloads/pets.zip";
    int status;
@@ -154,11 +155,17 @@ void kategoriFiles()
                        //2b. buat folder based on jenis hewan
                        strcat(path, jenisHewan);
                        char *buatDirektory[] = {"mkdir", "-p", path, NULL};
-                       eksekusi("/bin/mkdir", buatDirektory);   
+                       eksekusi("/bin/mkdir", buatDirektory);  
 
-                       
+                       //2e keterangan.txt
+                       char  lokasitxt[99], pathtxt[99];
+                       strcpy(lokasitxt, path);
+                       stpcpy(pathtxt, lokasitxt);
+
                        char namaditxt[100], value[100];
                        strcpy(namaditxt,namaHewan); //ngekopi namahewan di namaditxt biar yang dipake namaditxt
+                       stpcpy(pathtxt, lokasitxt);
+ 
 
                        //2c memindahkan to folder
                        strcat(namaHewan, ".jpg");
@@ -177,99 +184,27 @@ void kategoriFiles()
                        char *ubahnama[] = {"ubahnama", path3, path, NULL};
                        eksekusi("/bin/mv", ubahnama);
 
-                      
-
-                   }
-               }
-              
-              // ngapusgaguna();
-           }
-           closedir(direk);
-       }
-      //  closedir(direk);
-    }
-
-   else
-   {
-       ((wait(&status))>0);
-   }
-}
-void keterangantxt()
-{
-  char tujuan[100]="/home/rayhandapis/modul2/petshop";
-//    char asal[100]="/home/rayhandapis/Downloads/pets.zip";
-   int status;
- 
-   pid_t parentid;
-   parentid = fork();
-   
-   if(parentid < 0)
-    {
-      exit(EXIT_FAILURE);
-    }
-
-   if(parentid == 0)
-   {
-       DIR *direk;
-       direk=opendir(tujuan);
-       if(direk!=NULL)
-       {
-           struct dirent *diFolder;
-           while((diFolder=readdir(direk))!=NULL)
-           {
-               if(diFolder->d_type == DT_REG)
-               {
-                   int a; 
-                   char *tok, *tok2, *tok3, *tok4;
-                   char *filename = diFolder->d_name;
-                   char *newName = potongJPG(filename);
-
-                   char hasil1[100], hasil2[100], hasil3[100];
-                   char path2[99], path3[99];
-                   char jenisHewan[30], namaHewan[30], umurNya[30];
-
-                   for(tok=strtok_r(newName, "_", &tok3); tok!=NULL; tok=strtok_r(NULL, "_", &tok3))
-                   {
-                       a=0;
-                       char path[99]="/home/rayhandapis/modul2/petshop/";
-                       strcpy(hasil1, filename);
-                       strcpy(path2, path);
-                       strcpy(path3, path);
-                       strcpy(hasil2, filename);
-                       strcpy(hasil3, filename);
-                      //  for(tok2=strtok_r(tok, ";", &tok4); tok2!=NULL; tok2=strtok_r(NULL, ";", &tok4))
-                      //  {
-                      //      if(a==0)strcpy(jenisHewan, tok2);
-                      //      if(a==1)strcpy(namaHewan, tok2);
-                      //      if(a==2)strcpy(umurNya, tok2);
-                      //      a++;
-                      //  }   
-                      //2e keterangan.txt
-                       char  lokasitxt[99], pathtxt[99];
-                       strcpy(lokasitxt, path);
-                       stpcpy(pathtxt, lokasitxt);
-
-                       char namaditxt[100], value[100];
-                       strcpy(namaditxt,namaHewan); //ngekopi namahewan di namaditxt biar yang dipake namaditxt
-                       stpcpy(pathtxt, lokasitxt);
-
+                       //2e keterangan.txt
                        strcat(pathtxt, "/keterangan.txt");
                        strcpy(value, "nama : ");
                        strcat(value, namaditxt);
                        strcat(value, "\numur : ");
                        strcat(value, umurNya);
                        strcat(value, "tahun\n\n");
+
                       //  printf("%s\n", lokasitxt);
                        FILE *asal = fopen(pathtxt, "a");
                        fputs(value, asal);
                        fclose(asal);
-                      
+
                    }
-               
+               }
+              
+              // ngapusgaguna();
            }
-           closedir(direk);
+          //  closedir(direk);
        }
-      //  closedir(direk);
+       closedir(direk);
     }
 
    else
@@ -277,6 +212,7 @@ void keterangantxt()
        ((wait(&status))>0);
    }
 }
+
 void ngapusgaguna()
 {
    int status;
@@ -320,6 +256,7 @@ int main()
    int status;
    pid_t parentid;
    parentid = fork();
+   char *namaHewan, *umurNya, *namaditxt;
 
    if(parentid < 0)
    {
@@ -330,7 +267,7 @@ int main()
    {
       unzipandRemove();
       kategoriFiles();
-      keterangantxt();
+      // keterangantxt(namaHewan, umurNya, namaditxt);
       ngapusgaguna();
    }
 
