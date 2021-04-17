@@ -28,20 +28,30 @@ void eksekusi(char command[], char *nyimpenpath[]) //command tuh isinya /bin/com
    } 
 }
 //fungsi buat motong eksistensi .jpg
-char* potongJPG (char* s){
+char* potongJPG (char* sistem)
+{
     int n;
     int i;
-    char* new;
-    for (i = 0; s[i] != '\0'; i++);
-    // lenght of the new string
-    n = i - 4 + 1;
+    char* baru;
+
+    //perulangan
+    for (i = 0; sistem[i] != '\0'; i++);
+    
+    
+    n = i - 4 + 1;//panjang dari new stringnya
     if (n < 1)
-        return NULL;
-    new = (char*) malloc (n * sizeof(char));
+    {
+       return NULL;
+    }
+
+    baru = (char*) malloc (n * sizeof(char));
     for (i = 0; i < n - 1; i++)
-        new[i] = s[i];
-    new[i] = '\0';
-    return new;
+    {
+      baru[i] = sistem[i];
+    }
+    
+    baru[i] = '\0';
+    return baru;
 }
 //2a
 void unzipandRemove()
@@ -251,6 +261,7 @@ void ngapusgaguna()
      ((wait(&status)) > 0);
    }
 }
+
 int main()
 {
    int status;
