@@ -79,7 +79,6 @@ void extract() {
   }
 
   if (child_id == 0) {
-    sleep(7);  //tunggu sampai file kedownload
 
     char *exmusik[] = {"unzip", "-q", "Musik_for_Stevany.zip", NULL};
     eksekusi("/usr/bin/unzip", exmusik);
@@ -93,6 +92,33 @@ void extract() {
     // this is parent
     while ((wait(&status)) > 0);
   }
+}
+
+//d
+void move() {
+  pid_t child_id;
+  int status;
+
+  child_id = fork();
+
+  if (child_id < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+
+  if (child_id == 0) {
+    char *mmusik[] = {"find", "/home/zulfa/Documents/modul2/shift2/MUSIK/", "-type", "f", "-exec", "/bin/mv", "-t", "/home/zulfa/Documents/modul2/shift2/Musyik", "{}", ";", (char*)NULL};
+    eksekusi("/usr/bin/find", mmusik);
+
+    char *mfilm[] = {"find", "/home/zulfa/Documents/modul2/shift2/FILM/", "-type", "f", "-exec", "/bin/mv", "-t", "/home/zulfa/Documents/modul2/shift2/Fylm", "{}", ";", (char*)NULL};
+    eksekusi("/usr/bin/find", mfilm);
+
+    char *mfoto[] = {"find", "/home/zulfa/Documents/modul2/shift2/FOTO/", "-type", "f", "-exec", "/bin/mv", "-t", "/home/zulfa/Documents/modul2/shift2/Pyoto", "{}", ";", (char*)NULL};
+    eksekusi("/usr/bin/find", mfoto);
+  } else {
+    // this is parent
+    while ((wait(&status)) > 0);
+  }
+
 }
 
 int main() {
@@ -112,8 +138,10 @@ int main() {
 //b
     download();
 //c
-//    sleep(7);  //tunggu sampai file kedownload
+    sleep(7);  //tunggu sampai file kedownload
     extract();
+//d
+    move();
 }
   else {
     // this is parent
