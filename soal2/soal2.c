@@ -176,24 +176,6 @@ void kategoriFiles()
                        strcpy(namaditxt,namaHewan); //ngekopi namahewan di namaditxt biar yang dipake namaditxt
                        stpcpy(pathtxt, lokasitxt);
  
-
-                       //2c memindahkan to folder
-                       strcat(namaHewan, ".jpg");
-                       strcat(path2, hasil2);
-
-                       char *kopikeFolder[] = {"cp", "-r", path2, path, NULL};
-                       eksekusi("/bin/cp", kopikeFolder);
-
-                       //2c rubah nama 
-                       strcpy(path3, path);
-                       strcat(path3, "/");
-                       strcat(path3, hasil2);
-                       strcat(path, "/");
-                       strcat(path, namaHewan);
-                      //  printf("%s\n", path);
-                       char *ubahnama[] = {"ubahnama", path3, path, NULL};
-                       eksekusi("/bin/mv", ubahnama);
-
                        //2e keterangan.txt
                        strcat(pathtxt, "/keterangan.txt");
                        strcpy(value, "nama : ");
@@ -215,6 +197,83 @@ void kategoriFiles()
           //  closedir(direk);
        }
        closedir(direk);
+    }
+
+   else
+   {
+       ((wait(&status))>0);
+   }
+}
+
+void moveFiles()
+{
+   char tujuan[100]="/home/rayhandapis/modul2/petshop";
+//    char asal[100]="/home/rayhandapis/Downloads/pets.zip";
+   int status;
+ 
+   pid_t parentid;
+   parentid = fork();
+   
+   if(parentid < 0)
+    {
+      exit(EXIT_FAILURE);
+    }
+
+   if(parentid == 0)
+   {
+       DIR *direk;
+       direk=opendir(tujuan);
+       if(direk!=NULL)
+       {
+           struct dirent *diFolder;
+           while((diFolder=readdir(direk))!=NULL)
+           {
+               if(diFolder->d_type == DT_REG)
+               {
+                   int a; 
+                   char *tok, *tok2, *tok3, *tok4;
+                   char *filename = diFolder->d_name;
+                   char *newName = potongJPG(filename);
+
+                   char hasil1[100], hasil2[100], hasil3[100];
+                   char path2[99], path3[99];
+                   char jenisHewan[30], namaHewan[30], umurNya[30];
+
+                   for(tok=strtok_r(newName, "_", &tok3); tok!=NULL; tok=strtok_r(NULL, "_", &tok3))
+                   {
+                       a=0;
+                       char path[99]="/home/rayhandapis/modul2/petshop/";
+                       strcpy(hasil1, filename);
+                       strcpy(path2, path);
+                       strcpy(path3, path);
+                       strcpy(hasil2, filename);
+                       strcpy(hasil3, filename);
+                   }
+              
+                       char namaditxt[100], value[100];
+                       strcpy(namaditxt,namaHewan); //ngekopi namahewan di namaditxt biar yang dipake namaditxt
+
+                       //2c memindahkan to folder
+                       strcat(namaHewan, ".jpg");
+                       strcat(path2, hasil2);
+
+                       char *kopikeFolder[] = {"cp", "-r", path2, path, NULL};
+                       eksekusi("/bin/cp", kopikeFolder);
+
+                       //2c rubah nama 
+                       strcpy(path3, path);
+                       strcat(path3, "/");
+                       strcat(path3, hasil2);
+                       strcat(path, "/");
+                       strcat(path, namaHewan);
+                      //  printf("%s\n", path);
+                       char *ubahnama[] = {"ubahnama", path3, path, NULL};
+                       eksekusi("/bin/mv", ubahnama);     
+                }
+             }
+           closedir(direk);
+        }
+      //  closedir(direk);
     }
 
    else
@@ -267,7 +326,7 @@ int main()
    int status;
    pid_t parentid;
    parentid = fork();
-   char *namaHewan, *umurNya, *namaditxt;
+  //  char *namaHewan, *umurNya, *namaditxt;
 
    if(parentid < 0)
    {
@@ -278,6 +337,7 @@ int main()
    {
       unzipandRemove();
       kategoriFiles();
+      moveFiles();
       // keterangantxt(namaHewan, umurNya, namaditxt);
       ngapusgaguna();
    }
