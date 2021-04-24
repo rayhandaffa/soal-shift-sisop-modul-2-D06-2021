@@ -17,7 +17,105 @@ Kelompok :
 
 ## Penjelasan dan Penyelesaian soal no.2
 - **Penjelasan dan Penyelesaian Soal 2a**<br>
+Pada soal no 2 ini kita diminta untuk mengextract zip yang telah di download kemudian hasil extract-an di simpan ke dalam folder "/home/rayhandapis/modul2/petshop". Setelah di extract kemudia soal meminta kita membuat program dapat membedakan file dan folder sehingga dapat memproses file yang seharusnya dikerjakan dan menghapus folde-folder yang dibutuhkan sesuai dengan isi zip. Untuk mengextract zip dapat menggunakan sebuah `/bin/unzip` dan hasil extract-annya disimpan di folder `petshop` 
+```
+ if(parentid == 0)
+    {
+      char *folderBaru[]={"mkdir", "-p", tujuan, NULL};
+      eksekusi("/bin/mkdir", folderBaru);
+
+      char *extract[]={"unzip", "-q", asal,"-d", tujuan, NULL};//-q buat ngilangin yang di terminal
+      eksekusi("/bin/unzip", extract);
+    }
+```
+Pada potongan codingan di atas dapat dilihat dengan menggunakan *mkdir* digunakan untuk membuat sebuah folder petshop pada directory`/home/rayhandapis/modul2/"` dan untuk mengextractnya sendiri menggunakan `unzip` dengan sytax *unzip, -q, file source, -d, file destination, NULL*. -q disini digunakan agar ketika melakukan extract tidak ditampilkan pada terminal.
+```
+ if(parentid == 0)
+ {
+     DIR *direk;
+      direk=opendir(tujuan);
+      if(direk!=NULL) 
+      {
+       struct  dirent *diPetshop;
+       while((diPetshop = readdir(direk)) != NULL) 
+        {
+          if(strcmp(diPetshop->d_name, ".")==0 || strcmp(diPetshop->d_name, "..")==0)
+            {
+                continue;
+            } 
+          else if(diPetshop->d_type == DT_DIR)
+             {
+               char kombinasi[100] = {"tujuan"};
+               strcpy(kombinasi, tujuan);
+               strcat(kombinasi, "/");
+               strcat(kombinasi, diPetshop->d_name);
+               char *apus[] = {"rm", "-r", "-f", kombinasi, NULL};
+               eksekusi("/bin/rm", apus);
+             }
+            //  closedir(direk);
+        }
+      }
+    closedir(direk);
+ }
+```
+Selanjutnya, untuk menghapus folder yang tidak dibutuhkan kami menggunakan sebuah directory listing dengan library `dirent.h` untuk mengetahui isi folder yang telah di unzip. Dikarenakan pada soal ini hanya membutuhkan sebuah file-file yang berisi sebuah foto dengan format `.jpg`, maka file yang berupa DIRECTORY `DT_DIR` akan di remove. 
 - **Penjelasan dan Penyelesaian Soal 2b**<br>
+Pada soal meminta kita untuk dapat meng-zip kan kembali berdasarkan jenis peliharaan, sebelumnya kita dapat menghilangkan 4 indeks terakhir dari sebuah string guna untuk mempermudah program dalam mencari jenis hewan. 
+```
+//fungsi buat motong eksistensi .jpg
+char* potongJPG (char* sistem)
+{
+    int n;
+    int i;
+    char* baru;
+
+    //perulangan
+    for (i = 0; sistem[i] != '\0'; i++);
+    
+    
+    n = i - 4 + 1;//panjang dari new stringnya
+    if (n < 1)
+    {
+       return NULL;
+    }
+
+    baru = (char*) malloc (n * sizeof(char));
+    for (i = 0; i < n - 1; i++)
+    {
+      baru[i] = sistem[i];
+    }
+    
+    baru[i] = '\0';
+    return baru;
+}
+```
+Fungsi diatas digunakan untuk setiap file foto agar string nama file tersebut dapat digunakan kembali untuk membuat folder based on jenis hewan or jenis peliharaan dan nama file foto peliharaan. Untuk pemanggilan fungsi dapat di tulis berikut ini : 
+`char *newName = potongJPG(filename);` kemudian kita diminta untuk membuat folder sesuai kategori jenis peliharaan yang ada dengan cara: 
+```
+for(tok=strtok_r(newName, "_", &tok3); tok!=NULL; tok=strtok_r(NULL, "_", &tok3))
+{
+    a=0;
+    char path[99]="/home/rayhandapis/modul2/petshop/";
+    strcpy(hasil1, filename);
+    strcpy(path2, path);
+    strcpy(path3, path);
+    strcpy(hasil2, filename);
+    strcpy(hasil3, filename);
+    for(tok2=strtok_r(tok, ";", &tok4); tok2!=NULL; tok2=strtok_r(NULL, ";", &tok4))
+     {
+         if(a==0)strcpy(jenisHewan, tok2);
+         if(a==1)strcpy(namaHewan, tok2);
+         if(a==2)strcpy(umurNya, tok2);
+         a++;
+     }  
+
+     //2b. buat folder based on jenis hewan
+     strcat(path, jenisHewan);
+     char *buatDirektory[] = {"mkdir", "-p", path, NULL};
+     eksekusi("/bin/mkdir", buatDirektory);   
+}
+```
+`strtok_r` ini digunakan untuk memotong kata dalam string. Terdapat dua kali penggunaan for. For yang pertama digunakan untuk 
 - **Penjelasan dan Penyelesaian Soal 2c**<br>
 - **Penjelasan dan Penyelesaian Soal 2d**<br>
 - **Penjelasan dan Penyelesaian Soal 2e**<br>
