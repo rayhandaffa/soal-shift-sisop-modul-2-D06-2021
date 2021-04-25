@@ -88,12 +88,11 @@ Pada soal ini kita dinimta untuk mengekstrak zip file yang sudah kita download s
     execv("/usr/bin/unzip", exfoto);
   }
   ```
-  Pada codingan diata digunakan `unzip` untuk mengekstrak file yang dipilih, lalu digunakan `-q` agar hasil lognya tidak tertulis di terminal. Proses ini dilakukan setelah jeda waktu 10 detik dari proses sebelumnya dengan fungsi `sleep(10)` untuk memastikan semua file sudah terdownload terlebih dahulu
-<br>
+  Pada codingan diata digunakan `unzip` untuk mengekstrak file yang dipilih, lalu digunakan `-q` agar hasil lognya tidak tertulis di terminal. Proses ini dilakukan setelah jeda waktu 10 detik dari proses sebelumnya dengan fungsi `sleep(10)` untuk memastikan semua file sudah terdownload terlebih dahulu.<br>
 - **Penjelasan dan Penyelesaian Soal 1d**<br>
 Pada soal ini kita diminta untuk memindahkan semua file dari folder yang sudah di ekstrak ke forlder Myusik, Fylm, Pyoto yang sudah dibuat diawal.<br>
 ```
-pid_t id_mvmusik, id_mvfilm, id_mvfoto;
+  pid_t id_mvmusik, id_mvfilm, id_mvfoto;
   while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
   id_mvmusik = fork();
   if (id_mvmusik < 0) {
@@ -124,8 +123,8 @@ pid_t id_mvmusik, id_mvfilm, id_mvfoto;
     char *mfoto[] = {"find", "/home/zulfa/Documents/modul2/shift2/FOTO/", "-type", "f", "-exec", "/bin/mv", "-t", "/home/zulfa/Documents/modul2/shift2/Pyoto", "{}", ";", (char*)NULL};
     execv("/usr/bin/find", mfoto);
   }
-  ```
-Pada proses ini, kita menggunakan find dengan -type f yaitu untuk menemukan semua data dengan tipe file, dan melakukan -exec mv untuk menggunakan perintah move yaitu memindahkan semua file yang telah di find sebelumnya kedalam folder Musyik, Fylm, Pyoto yang telah dibuat sebelumnya.<br>
+```
+Pada proses ini, kita menggunakan find dengan `-type f` yaitu untuk menemukan semua data dengan tipe file, dan melakukan `-exec /bin/mv` untuk menggunakan perintah move yaitu memindahkan semua file yang telah di find sebelumnya kedalam folder Musyik, Fylm, Pyoto yang telah dibuat sebelumnya.<br>
 
 - **Penjelasan dan Penyelesaian Soal 1e**<br>
 - **Penjelasan dan Penyelesaian Soal 1f**<br>
