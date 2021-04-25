@@ -88,7 +88,8 @@ Pada soal ini kita dinimta untuk mengekstrak zip file yang sudah kita download s
     execv("/usr/bin/unzip", exfoto);
   }
   ```
-  Pada codingan diata digunakan `unzip` untuk mengekstrak file yang dipilih, lalu digunakan `-q` agar hasil lognya tidak tertulis di terminal.<br>
+  Pada codingan diata digunakan `unzip` untuk mengekstrak file yang dipilih, lalu digunakan `-q` agar hasil lognya tidak tertulis di terminal. Proses ini dilakukan setelah jeda waktu 10 detik dari proses sebelumnya dengan fungsi `sleep(10)` untuk memastikan semua file sudah terdownload terlebih dahulu
+<br>
 - **Penjelasan dan Penyelesaian Soal 1d**<br>
 Pada soal ini kita diminta untuk memindahkan semua file dari folder yang sudah di ekstrak ke forlder Myusik, Fylm, Pyoto yang sudah dibuat diawal.<br>
 ```
