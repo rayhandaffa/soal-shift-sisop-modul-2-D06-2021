@@ -220,56 +220,56 @@ Pada soal 3a ini, diminta untuk membuat program C yang setiap mana setiap 40 det
 
 Pertama, perlu dideklarasikan variabel-variabel yang dibutuhkan, seperti `rawtime`, `timeinfo`, dan array char `timestamp` untuk keperluan pembuatan timestamp.
 ```
-    time_t rawtime;
-    struct tm *timeinfo;
-    char timestamp[50] = {0};
+time_t rawtime;
+struct tm *timeinfo;
+char timestamp[50] = {0};
 ```
 Lalu, deklarasikan `child_id` dan lakukan fork pada `child_id` untuk membuat proses baru. Lakukan pengecekan untuk mengecek apakah proses baru berhasil dibuat. Apabila hasil `child_id` != 0 maka akan menuju ke parent process.
 ```
-    pid_t child_id;
+pid_t child_id;
 
-    child_id = fork();
+child_id = fork();
 
-    if (child_id < 0)
-    {
-        exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
-    }
+if (child_id < 0)
+{
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+}
 
-    if (child_id == 0)
-    {
-    }
-    else
-    {
-        // this is parent
+if (child_id == 0)
+{
+}
+else
+{
+    // this is parent
 
-    }
+}
 ```
-Pada bagian parent process, dilakukan infinite while loop. Fungsi `time` berfungsi untuk mengembalikan waktu saat ini dan menaruh di variabel `rawtime`. Fungsi `localtime` berfungsi untuk mengembalikan representasi struct tm dari `rawtime` pada zona waktu lokal. Fungsi `strftime` berfungsi untuk memformat `timeinfo` menjadi `timestamp` sesuai format yang diinginkan, yakni `%Y-%m-%d_%X`.
+Pada bagian parent process, dilakukan infinite while loop. Fungsi `time` berfungsi untuk mengembalikan waktu saat ini dan menaruhnya di variabel `rawtime`. Fungsi `localtime` berfungsi untuk mengembalikan representasi struct tm dari `rawtime` pada zona waktu lokal. Fungsi `strftime` berfungsi untuk memformat `timeinfo` menjadi `timestamp` sesuai format yang diinginkan, yakni `%Y-%m-%d_%X`.
 ```
-    else
+else
+{
+    // this is parent
+
+    while (1)
     {
-        // this is parent
+        // Get timestamped name
+        time(&rawtime);
+        timeinfo = localtime(&rawtime);
+        strftime(timestamp, 50, "%Y-%m-%d_%X", timeinfo);
+        // printf("%s\n", timestamp);
 
-        while (1)
-        {
-            // Get timestamped name
-            time(&rawtime);
-            timeinfo = localtime(&rawtime);
-            strftime(timestamp, 50, "%Y-%m-%d_%X", timeinfo);
-            // printf("%s\n", timestamp);
+        // Create a directory with a timestamped name
+        int check = mkdir(timestamp, 0777);
 
-            // Create a directory with a timestamped name
-            int check = mkdir(timestamp, 0777);
-
-            // Every 40 seconds
-            sleep(40);
-        }
+        // Every 40 seconds
+        sleep(40);
     }
+}
 ```
 
 Lalu, dibuat sebuah direktori dengan nama berupa `timestamp`.
 ```
-    int check = mkdir(timestamp, 0777);
+int check = mkdir(timestamp, 0777);
 ```
 Dan beri jeda proses iterasi dengan fungsi `sleep`. Atur menjadi 40 detik.
 ```
@@ -277,6 +277,8 @@ sleep(40);
 ```
 
 Berikut ini adalah screenshot hasil output dari program 3a diatas.
+
+
 
 
 
