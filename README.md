@@ -234,7 +234,7 @@ Untuk penjelasan dan penyelesaian soal no 2 dibagi menjadi beberapa sub-nomer, y
                    }
   ```
   `strtok_r` digunakan untuk memotong kata dalam string. Pada kesempatan kali ini kami menggunakan dua perulangan, perulangan perta digunakan untuk mengecek untuk foto yang terdiri dari dua hewan peliharaan sehingga dipisahkan dengan `_`, kemudian memotong string. Setelah itu, membuat sebuah `char` untuk menyimpan kategori hewan peliharaan, nama hewan peliharaan, dan umur. Selanjutnya pada perulangan kedua, memotong string nama file yang dipisahkan dengan `;` dan ketika i=0 berarti program sedang mengecek potongan pertama pada string sehingga mendapatkan kategori hewan peliharaan. Kemudian, menggunakan `mkdir` untuk membuat folder sesuai kategori peliharaan.
-- **Penjelasan dan Penyelesaian Soal 2c**<br>
+- **Penjelasan dan Penyelesaian Soal 2c dan 2d**<br>
   Pada soal 2c ini kita diminta memindahkan foto ke folder dengan kategori yang sesuai 
   ```
                        //2c memindahkan to folder
@@ -254,9 +254,35 @@ Untuk penjelasan dan penyelesaian soal no 2 dibagi menjadi beberapa sub-nomer, y
                        char *ubahnama[] = {"ubahnama", path3, path, NULL};
                        eksekusi("/bin/mv", ubahnama); 
   ```
-    Potongan *coding*-an di atas 
-- **Penjelasan dan Penyelesaian Soal 2d**<br>
+    Bagian atas ini untuk merename dan mengkopi file-file pada setiap folder. Dikarenakan sebelumnya sudah menemukan nilai untuk variabel name, variabel tersebut ditambah dengan ekstensi jpg dijadikan sebagai path baru dimana file sebelumnya akan dipindah. Untuk merename sendiri bisa menggunakan `/bin/mv` dan untuk mengkopi kami menggunakan `/bin/cp`. nomor 2c dan 2d dilakukan secara bersamaan pada dua fungsi ini Untuk meremove file-file di luar folder-folder kategori (bekas copy untuk soal 2c), kami menggunakan `/bin/rm` untuk menghapus file-file tersebut, apabila ternyata file dalam path Petshop berupa file reguler biasa dan bukan direktori (karena apabila file di folder Petshop berupa direktori artinya file tersebut merupakan folder kategori yang telah dibuat). Kami masih menggunakan directory listing atas, akan tetapi untuk meremove sudah di luar looping pemisahan string. Untuk pengapusan file-file yang tidak digunakan kami membuat sebuah fungsi bernama `ngapusgaguna()`.
+
 - **Penjelasan dan Penyelesaian Soal 2e**<br>
+  Pada soal 2e ini diminta untuk membuat sebuah `keterangan.txt` yang dimana sebelumnya di atas sudah mengcopy nilai beberapa variabel ke dalam variabel baru untuk digunakan di bawah, yaitu
+  ```
+                       //2e keterangan.txt
+                       char  lokasitxt[99], pathtxt[99];
+                       strcpy(lokasitxt, path);
+                       stpcpy(pathtxt, lokasitxt);
+
+                       char namaditxt[100], value[100];
+                       strcpy(namaditxt,namaHewan); //ngekopi namahewan di namaditxt biar yang dipake namaditxt
+                       stpcpy(pathtxt, lokasitxt);
+  ```
+  Kemudian, untuk memasukkan file txt sendiri dengan cara membuat path baru berisi "keterangan.txt", dan kemudian memasukkan nilai dalam variabel name, dan age pada file dengan format yang telah ditentukan. Setelah file selesai diappend, file akan ditutup kembali. Untuk memasukkan file juga masih di dalam looping pemisahan string yang awal.
+  ```
+                      //2e keterangan.txt
+                       strcat(pathtxt, "/keterangan.txt");
+                       strcpy(value, "nama : ");
+                       strcat(value, namaditxt);
+                       strcat(value, "\numur : ");
+                       strcat(value, umurNya);
+                       strcat(value, "tahun\n\n");
+
+                      //  printf("%s\n", lokasitxt);
+                       FILE *asal = fopen(pathtxt, "a");
+                       fputs(value, asal);
+                       fclose(asal);
+  ```
 ## Kendala yang dialami selama mengerjakan soal no.2 
 Beberapa kendala yang kami alami selama mengerjakan soal no.2 antara lain : <br>
 1. Pada mengerjakan soal2 ini kami mengalami error ketika menjalankan program yang telah kami buat dan muncul seperti ini: <br> 
