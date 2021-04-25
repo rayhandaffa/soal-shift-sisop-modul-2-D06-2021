@@ -278,7 +278,7 @@ sleep(40);
 
 Berikut ini adalah screenshot hasil output dari program 3a diatas.
 
-
+![soal3](https://github.com/rayhandaffa/soal-shift-sisop-modul-2-D06-2021/blob/main/soal3/soal3.png)<br> 
 
 - **Penjelasan dan Penyelesaian Soal 3b**<br>
 - **Penjelasan dan Penyelesaian Soal 3c**<br>
