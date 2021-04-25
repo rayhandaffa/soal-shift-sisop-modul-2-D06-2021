@@ -7,8 +7,88 @@ Kelompok :
 
 ## Penjelasan dan Penyelesaian soal no.1
 - **Penjelasan dan Penyelesaian Soal 1a**<br>
+Pada soal ini kita diminta untuk membuat 3 folder bernama "Fylm", "Musyik", dan "Pyoto".<br>
+```
+  char *argv[] = {"mkdir", "-p", "Musyik", "Fylm", "Pyoto", NULL};
+  execv("/bin/mkdir", argv);
+```
+Pada potongan codingan di atas digunakan `mkdir` untuk membuat folder baru diikuti dengan nama-nama folder yang ingin dibuat.<br>
 - **Penjelasan dan Penyelesaian Soal 1b**<br>
+Pada soal ini kita diminta untuk mendownload .zip file yang terdapat di soal dengan menggunakan `wget --no-check-certificate "https://drive.google.com/uc?id=ID-FILE&export=download" -O Nama_untuk_filenya.ext`<br>
+```
+  pid_t id_dlmusik, id_dlfilm, id_dlfoto;
+  while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
+  id_dlmusik = fork();
+  if (id_dlmusik < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+   if (id_dlmusik == 0){
+    // this is parent
+    char *dmusik[] = {"wget", "-bq", "--no-check-certificate", "https://drive.google.com/uc?id=1ZG8nRBRPquhYXq_sISdsVcXx5VdEgi-J&export=download", "-O", "Musik_for_Stevany.zip", NULL};
+    execv("/usr/bin/wget", dmusik);
+  }
+
+  while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
+  id_dlfilm = fork();
+  if (id_dlfilm < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+   if (id_dlfilm == 0) {
+    // this is parent
+    char *dfilm[] = {"wget", "-bq", "--no-check-certificate", "https://drive.google.com/uc?id=1ktjGgDkL0nNpY-vT7rT7O6ZI47Ke9xcp&export=download", "-O", "Film_for_Stevany.zip", NULL};
+    execv("/usr/bin/wget", dfilm);
+  }
+
+  while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
+  id_dlfoto = fork();
+  if (id_dlfoto < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+  if (id_dlfoto == 0) {
+    // this is parent
+    char *dfoto[] = {"wget", "-bq", "--no-check-certificate", "https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O", "Foto_for_Stevany.zip", NULL};
+    execv("/usr/bin/wget", dfoto);
+  }
+```
+pada codingan di atas digunakan `-bq` agar proses mendownload berjalan di background dan hasil log tidak akan ditulis di terminal.<br>
 - **Penjelasan dan Penyelesaian Soal 1c**<br>
+Pada soal ini kita dinimta untuk mengekstrak zip file yang sudah kita download sebelumnya<br>
+```
+   pid_t id_exmusik, id_exfilm, id_exfoto;
+  while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
+  id_exmusik = fork();
+  if (id_exmusik < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+  if (id_exmusik == 0){
+    // this is parent
+    char *exmusik[] = {"unzip", "-q", "Musik_for_Stevany.zip", NULL};
+    execv("/usr/bin/unzip", exmusik);
+  }
+
+  while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
+  id_exfilm = fork();
+  if (id_exfilm < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+  if (id_exfilm == 0){
+    // this is parent
+    char *exfilm[] = {"unzip", "-q", "Film_for_Stevany.zip", NULL};
+    execv("/usr/bin/unzip", exfilm);
+  }
+
+  while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
+  id_exfoto = fork();
+  if (id_exfoto < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+  if (id_exfoto == 0){
+    // this is parent
+    char *exfoto[] = {"unzip", "-q", "Foto_for_Stevany.zip", NULL};
+    execv("/usr/bin/unzip", exfoto);
+  }
+```
+Pada codingan diata digunakan `unzip` untuk mengekstrak file yang dipilih, lalu digunakan `-q` agar hasil lognya tidak tertulis di terminal.<br>
 - **Penjelasan dan Penyelesaian Soal 1d**<br>
 - **Penjelasan dan Penyelesaian Soal 1e**<br>
 - **Penjelasan dan Penyelesaian Soal 1f**<br>
