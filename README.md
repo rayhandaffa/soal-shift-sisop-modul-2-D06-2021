@@ -8,14 +8,14 @@ Kelompok :
 ## Penjelasan dan Penyelesaian soal no.1
 - **Penjelasan dan Penyelesaian Soal 1a**<br>
 Pada soal ini kita diminta untuk membuat 3 folder bernama "Fylm", "Musyik", dan "Pyoto".<br>
-```
-  char *argv[] = {"mkdir", "-p", "Musyik", "Fylm", "Pyoto", NULL};
-  execv("/bin/mkdir", argv);
-```
-Pada potongan codingan di atas digunakan `mkdir` untuk membuat folder baru diikuti dengan nama-nama folder yang ingin dibuat.<br>
+  ```
+   char *argv[] = {"mkdir", "-p", "Musyik", "Fylm", "Pyoto", NULL};
+   execv("/bin/mkdir", argv);
+  ```
+  Pada potongan codingan di atas digunakan `mkdir` untuk membuat folder baru diikuti dengan nama-nama folder yang ingin dibuat.<br>
 - **Penjelasan dan Penyelesaian Soal 1b**<br>
 Pada soal ini kita diminta untuk mendownload .zip file yang terdapat di soal dengan menggunakan `wget --no-check-certificate "https://drive.google.com/uc?id=ID-FILE&export=download" -O Nama_untuk_filenya.ext`<br>
-```
+  ```
   pid_t id_dlmusik, id_dlfilm, id_dlfoto;
   while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
   id_dlmusik = fork();
@@ -49,11 +49,11 @@ Pada soal ini kita diminta untuk mendownload .zip file yang terdapat di soal den
     char *dfoto[] = {"wget", "-bq", "--no-check-certificate", "https://drive.google.com/uc?id=1FsrAzb9B5ixooGUs0dGiBr-rC7TS9wTD&export=download", "-O", "Foto_for_Stevany.zip", NULL};
     execv("/usr/bin/wget", dfoto);
   }
-```
-pada codingan di atas digunakan `-bq` agar proses mendownload berjalan di background dan hasil log tidak akan ditulis di terminal.<br>
+  ```
+  pada codingan di atas digunakan `-bq` agar proses mendownload berjalan di background dan hasil log tidak akan ditulis di terminal.<br>
 - **Penjelasan dan Penyelesaian Soal 1c**<br>
 Pada soal ini kita dinimta untuk mengekstrak zip file yang sudah kita download sebelumnya<br>
-```
+  ```
    pid_t id_exmusik, id_exfilm, id_exfoto;
   while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
   id_exmusik = fork();
@@ -87,8 +87,8 @@ Pada soal ini kita dinimta untuk mengekstrak zip file yang sudah kita download s
     char *exfoto[] = {"unzip", "-q", "Foto_for_Stevany.zip", NULL};
     execv("/usr/bin/unzip", exfoto);
   }
-```
-Pada codingan diata digunakan `unzip` untuk mengekstrak file yang dipilih, lalu digunakan `-q` agar hasil lognya tidak tertulis di terminal.<br>
+  ```
+  Pada codingan diata digunakan `unzip` untuk mengekstrak file yang dipilih, lalu digunakan `-q` agar hasil lognya tidak tertulis di terminal.<br>
 - **Penjelasan dan Penyelesaian Soal 1d**<br>
 - **Penjelasan dan Penyelesaian Soal 1e**<br>
 - **Penjelasan dan Penyelesaian Soal 1f**<br>
@@ -96,107 +96,165 @@ Pada codingan diata digunakan `unzip` untuk mengekstrak file yang dipilih, lalu 
 ## Kendala yang dialami selama mengerjakan soal no.1
 
 ## Penjelasan dan Penyelesaian soal no.2
+Untuk penjelasan dan penyelesaian soal no 2 dibagi menjadi beberapa sub-nomer, yaitu:
 - **Penjelasan dan Penyelesaian Soal 2a**<br>
-Pada soal no 2 ini kita diminta untuk mengextract zip yang telah di download kemudian hasil extract-an di simpan ke dalam folder "/home/rayhandapis/modul2/petshop". Setelah di extract kemudia soal meminta kita membuat program dapat membedakan file dan folder sehingga dapat memproses file yang seharusnya dikerjakan dan menghapus folde-folder yang dibutuhkan sesuai dengan isi zip. Untuk mengextract zip dapat menggunakan sebuah `/bin/unzip` dan hasil extract-annya disimpan di folder `petshop` 
-```
- if(parentid == 0)
-    {
-      char *folderBaru[]={"mkdir", "-p", tujuan, NULL};
-      eksekusi("/bin/mkdir", folderBaru);
-
-      char *extract[]={"unzip", "-q", asal,"-d", tujuan, NULL};//-q buat ngilangin yang di terminal
-      eksekusi("/bin/unzip", extract);
-    }
-```
-Pada potongan codingan di atas dapat dilihat dengan menggunakan *mkdir* digunakan untuk membuat sebuah folder petshop pada directory`/home/rayhandapis/modul2/"` dan untuk mengextractnya sendiri menggunakan `unzip` dengan sytax *unzip, -q, file source, -d, file destination, NULL*. -q disini digunakan agar ketika melakukan extract tidak ditampilkan pada terminal.
-```
- if(parentid == 0)
- {
-     DIR *direk;
-      direk=opendir(tujuan);
-      if(direk!=NULL) 
-      {
-       struct  dirent *diPetshop;
-       while((diPetshop = readdir(direk)) != NULL) 
-        {
-          if(strcmp(diPetshop->d_name, ".")==0 || strcmp(diPetshop->d_name, "..")==0)
-            {
-                continue;
-            } 
-          else if(diPetshop->d_type == DT_DIR)
-             {
-               char kombinasi[100] = {"tujuan"};
-               strcpy(kombinasi, tujuan);
-               strcat(kombinasi, "/");
-               strcat(kombinasi, diPetshop->d_name);
-               char *apus[] = {"rm", "-r", "-f", kombinasi, NULL};
-               eksekusi("/bin/rm", apus);
-             }
-            //  closedir(direk);
-        }
-      }
-    closedir(direk);
- }
-```
-Selanjutnya, untuk menghapus folder yang tidak dibutuhkan kami menggunakan sebuah directory listing dengan library `dirent.h` untuk mengetahui isi folder yang telah di unzip. Dikarenakan pada soal ini hanya membutuhkan sebuah file-file yang berisi sebuah foto dengan format `.jpg`, maka file yang berupa DIRECTORY `DT_DIR` akan di remove. 
-- **Penjelasan dan Penyelesaian Soal 2b**<br>
-Pada soal meminta kita untuk dapat meng-zip kan kembali berdasarkan jenis peliharaan, sebelumnya kita dapat menghilangkan 4 indeks terakhir dari sebuah string guna untuk mempermudah program dalam mencari jenis hewan. 
-```
-//fungsi buat motong eksistensi .jpg
-char* potongJPG (char* sistem)
-{
-    int n;
-    int i;
-    char* baru;
-
-    //perulangan
-    for (i = 0; sistem[i] != '\0'; i++);
-    
-    
-    n = i - 4 + 1;//panjang dari new stringnya
-    if (n < 1)
-    {
-       return NULL;
-    }
-
-    baru = (char*) malloc (n * sizeof(char));
-    for (i = 0; i < n - 1; i++)
-    {
-      baru[i] = sistem[i];
-    }
-    
-    baru[i] = '\0';
-    return baru;
-}
-```
-Fungsi diatas digunakan untuk setiap file foto agar string nama file tersebut dapat digunakan kembali untuk membuat folder based on jenis hewan or jenis peliharaan dan nama file foto peliharaan. Untuk pemanggilan fungsi dapat di tulis berikut ini : 
-`char *newName = potongJPG(filename);` kemudian kita diminta untuk membuat folder sesuai kategori jenis peliharaan yang ada dengan cara: 
-```
-for(tok=strtok_r(newName, "_", &tok3); tok!=NULL; tok=strtok_r(NULL, "_", &tok3))
-{
-    a=0;
-    char path[99]="/home/rayhandapis/modul2/petshop/";
-    strcpy(hasil1, filename);
-    strcpy(path2, path);
-    strcpy(path3, path);
-    strcpy(hasil2, filename);
-    strcpy(hasil3, filename);
-    for(tok2=strtok_r(tok, ";", &tok4); tok2!=NULL; tok2=strtok_r(NULL, ";", &tok4))
+  Pada soal nomer 2a ini kita diminta membuat program agar bisa meng-*extract* zip yang diberikan ke dalamfolder yang memiliki alamat `/home/rayhandapis/modul2/petshop`. Karena bos Loba teledor, maka soal 2a meminta kita membuat sebuah rencana agar program dapat membedakan file dan folder sehingga dapat memproses file yang seharusnya dikerjakan dan menghapus folder - folder yang tidak dibutuhkan. Oleh karena itu, kami membuat sebuah fungsi `unzipandRemove()` yang dimana sudah sesuai dengan penjelasan soal nomer 2a ini. 
+  ```
+      /2a
+    void unzipandRemove()
      {
-         if(a==0)strcpy(jenisHewan, tok2);
-         if(a==1)strcpy(namaHewan, tok2);
-         if(a==2)strcpy(umurNya, tok2);
-         a++;
-     }  
+         char tujuan[100]="/home/rayhandapis/modul2/petshop";
+        char asal[100]="/home/rayhandapis/Downloads/pets.zip";
 
-     //2b. buat folder based on jenis hewan
-     strcat(path, jenisHewan);
-     char *buatDirektory[] = {"mkdir", "-p", path, NULL};
-     eksekusi("/bin/mkdir", buatDirektory);   
-}
-```
-`strtok_r` ini digunakan untuk memotong kata dalam string. Terdapat dua kali penggunaan for. For yang pertama digunakan untuk 
+         int status;
+ 
+         pid_t parentid;
+         parentid = fork();
+   
+        if(parentid < 0)
+         {
+            exit(EXIT_FAILURE);
+         }
+
+        if(parentid == 0)
+         {
+           char *folderBaru[]={"mkdir", "-p", tujuan, NULL};
+           eksekusi("/bin/mkdir", folderBaru);
+
+            char *extract[]={"unzip", "-q", asal,"-d", tujuan, NULL};//-q buat ngilangin yang di terminal
+            eksekusi("/bin/unzip", extract);
+             
+             //ngilangin yang ga penting
+            DIR *direk;
+            direk=opendir(tujuan);
+            if(direk!=NULL) 
+              {
+                 struct  dirent *diPetshop;
+                 while((diPetshop = readdir(direk)) != NULL) 
+                 {
+                     if(strcmp(diPetshop->d_name, ".")==0 || strcmp(diPetshop->d_name, "..")==0)
+                       {
+                          continue;
+                       } 
+                 else if(diPetshop->d_type == DT_DIR)
+                  {
+                      char kombinasi[100] = {"tujuan"};
+                      strcpy(kombinasi, tujuan);
+                      strcat(kombinasi, "/");
+                      strcat(kombinasi, diPetshop->d_name);
+                      char *apus[] = {"rm", "-r", "-f", kombinasi, NULL};
+                     eksekusi("/bin/rm", apus);
+                   }
+              //  closedir(direk);
+               }
+          }
+        closedir(direk);
+         }
+
+       else 
+         {
+           ((wait(&status))>0);
+          }
+
+     }
+  ```
+  Berdasarkan fungsi di atas untuk meng-*extract* zip kami pertama2 membuat sebuah folder dengan menggunakan `mkdir` pada directory `/home/rayhandapis/modul2/`. Kemudian, meng-*extract* menggunakan `unzip` dengan syntax `unzip, "-q", file asal, "-d", file tujuan` . Kami menggunakan `-q` digunakan agar log ketika melakukan *extract* tidak ditampilkan pada terminal. Selanjutnya, kita dapat menghapus folder yang tidak dibutuhkan. Disini kami menggunakan directory listing dengan library `dirent.h` untuk mengetahui isi folder yang telah di `unzip`. Karena file yang dibutuhkan hanya foto-foto dengan format `.jpg`, maka file yang berupa directory `DT_DIR` akan di hapus atau di remove.
+- **Penjelasan dan Penyelesaian Soal 2b**<br>
+  Pada nomer 2b ini kita diminta membuat folder berdasarkan jenis peliharaan. Karena kita tidak mungkin memeriksa satu-persatu, maka program harus membuatkan folder-folder yang dibutuhkan sesuai dengan isi zip namun, sebelum itu kami menggunakan sebuah fungsi untuk menghilangkan 4 indeks terakhir dari sebuah string. 
+  ```
+       //fungsi buat motong eksistensi .jpg
+       char* potongJPG (char* sistem)
+        {
+            int n;
+            int i;
+            char* baru;
+
+            //perulangan
+            for (i = 0; sistem[i] != '\0'; i++);
+    
+    
+            n = i - 4 + 1;//panjang dari new stringnya
+           if (n < 1)
+            {
+                return NULL;
+            }
+
+           baru = (char*) malloc (n * sizeof(char));
+           for (i = 0; i < n - 1; i++)
+            {
+               baru[i] = sistem[i];
+            }
+    
+           baru[i] = '\0';
+           return baru;
+       }
+  ```
+  Menggunakan fungsi `potongJPG` untuk setiap file foto agar string nama file tersebut dapat digunakan untuk membuat folder untuk setiap jenis peliharaan dan nama file foto peliharaan. Selanjutnya kita memanggil fungsi tersebut menggunakan syntax `char *newName = potongJPG(filename);`. Kemudian, kami dapat membuat folder sesuai kategori jenis pelihaaran yang dengan menggunakan sebuah fungsi `kategoriFiles()`.
+  ```
+    
+       DIR *direk;
+       direk=opendir(tujuan);
+       if(direk!=NULL)
+       {
+           struct dirent *diFolder;
+           while((diFolder=readdir(direk))!=NULL)
+           {
+               if(diFolder->d_type == DT_REG)
+               {
+                   int a; 
+                   char *tok, *tok2, *tok3, *tok4;
+                   char *filename = diFolder->d_name;
+                   char *newName = potongJPG(filename);
+
+                   char hasil1[100], hasil2[100], hasil3[100];
+                   char path2[99], path3[99];
+                   char jenisHewan[30], namaHewan[30], umurNya[30];
+
+                   for(tok=strtok_r(newName, "_", &tok3); tok!=NULL; tok=strtok_r(NULL, "_", &tok3))
+                   {
+                       a=0;
+                       char path[99]="/home/rayhandapis/modul2/petshop/";
+                       strcpy(hasil1, filename);
+                       strcpy(path2, path);
+                       strcpy(path3, path);
+                       strcpy(hasil2, filename);
+                       strcpy(hasil3, filename);
+                       for(tok2=strtok_r(tok, ";", &tok4); tok2!=NULL; tok2=strtok_r(NULL, ";", &tok4))
+                       {
+                           if(a==0)strcpy(jenisHewan, tok2);
+                           if(a==1)strcpy(namaHewan, tok2);
+                           if(a==2)strcpy(umurNya, tok2);
+                           a++;
+                       }  
+
+                       //2b. buat folder based on jenis hewan
+                       strcat(path, jenisHewan);
+                       char *buatDirektory[] = {"mkdir", "-p", path, NULL};
+                       eksekusi("/bin/mkdir", buatDirektory);  
+                   }
+  ```
+  `strtok_r` digunakan untuk memotong kata dalam string. Pada kesempatan kali ini kami menggunakan dua perulangan, perulangan perta digunakan untuk mengecek untuk foto yang terdiri dari dua hewan peliharaan sehingga dipisahkan dengan `_`, kemudian memotong string. Setelah itu, membuat sebuah `char` untuk menyimpan kategori hewan peliharaan, nama hewan peliharaan, dan umur. Selanjutnya pada perulangan kedua, memotong string nama file yang dipisahkan dengan `;` dan ketika i=0 berarti program sedang mengecek potongan pertama pada string sehingga mendapatkan kategori hewan peliharaan. Kemudian, menggunakan `mkdir` untuk membuat folder sesuai kategori peliharaan.
 - **Penjelasan dan Penyelesaian Soal 2c**<br>
+  Pada soal 2c ini kita diminta memindahkan foto ke folder dengan kategori yang sesuai 
+  ```
+                       //2c memindahkan to folder
+                       strcat(namaHewan, ".jpg");
+                       strcat(path2, hasil2);
+
+                       char *kopikeFolder[] = {"cp", "-r", path2, path, NULL};
+                       eksekusi("/bin/cp", kopikeFolder);
+
+                       //2c rubah nama 
+                       strcpy(path3, path);
+                       strcat(path3, "/");
+                       strcat(path3, hasil2);
+                       strcat(path, "/");
+                       strcat(path, namaHewan);
+                      //  printf("%s\n", path);
+                       char *ubahnama[] = {"ubahnama", path3, path, NULL};
+                       eksekusi("/bin/mv", ubahnama); 
+  ```
+    Potongan *coding*-an di atas 
 - **Penjelasan dan Penyelesaian Soal 2d**<br>
 - **Penjelasan dan Penyelesaian Soal 2e**<br>
 ## Kendala yang dialami selama mengerjakan soal no.2 
