@@ -280,13 +280,14 @@ Berikut ini adalah screenshot hasil output dari program 3a diatas.
 
 
 
-
-
-
-
-
 - **Penjelasan dan Penyelesaian Soal 3b**<br>
 - **Penjelasan dan Penyelesaian Soal 3c**<br>
 - **Penjelasan dan Penyelesaian Soal 3d**<br>
 - **Penjelasan dan Penyelesaian Soal 3e**<br>
 ## Kendala yang dialami selama mengerjakan soal no.3 
+
+1. Terkendala saat ingin melakukan download gambar dari URL. Direktori terbuat tetapi gambar tidak terunduh.
+```
+char *argv1[] = {"wget", imageURL, "-O", timestampImg, "-o", "/dev/null", NULL};
+execv("/usr/bin/wget", argv1);
+```
