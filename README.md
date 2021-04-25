@@ -90,10 +90,48 @@ Pada soal ini kita dinimta untuk mengekstrak zip file yang sudah kita download s
   ```
   Pada codingan diata digunakan `unzip` untuk mengekstrak file yang dipilih, lalu digunakan `-q` agar hasil lognya tidak tertulis di terminal.<br>
 - **Penjelasan dan Penyelesaian Soal 1d**<br>
+Pada soal ini kita diminta untuk memindahkan semua file dari folder yang sudah di ekstrak ke forlder Myusik, Fylm, Pyoto yang sudah dibuat diawal.<br>
+```
+pid_t id_mvmusik, id_mvfilm, id_mvfoto;
+  while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
+  id_mvmusik = fork();
+  if (id_mvmusik < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+  if (id_mvmusik == 0){
+    // this is parent
+    char *mmusik[] = {"find", "/home/zulfa/Documents/modul2/shift2/MUSIK/", "-type", "f", "-exec", "/bin/mv", "-t", "/home/zulfa/Documents/modul2/shift2/Musyik", "{}", ";", (char*)NULL};
+    execv("/usr/bin/find", mmusik);
+  }
+
+  while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
+  id_mvfilm = fork();
+  if (id_mvfilm < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+  if(id_mvfilm == 0){
+    char *mfilm[] = {"find", "/home/zulfa/Documents/modul2/shift2/FILM/", "-type", "f", "-exec", "/bin/mv", "-t", "/home/zulfa/Documents/modul2/shift2/Fylm", "{}", ";", (char*)NULL};
+    execv("/usr/bin/find", mfilm);
+  }
+
+  while ((wait(&status)) > 0);//menunggu proses sebelumnya selesai
+  id_mvfoto = fork();
+  if (id_mvfoto < 0) {
+    exit(EXIT_FAILURE); // Jika gagal membuat proses baru, program akan berhenti
+  }
+  if(id_mvfoto == 0){
+    char *mfoto[] = {"find", "/home/zulfa/Documents/modul2/shift2/FOTO/", "-type", "f", "-exec", "/bin/mv", "-t", "/home/zulfa/Documents/modul2/shift2/Pyoto", "{}", ";", (char*)NULL};
+    execv("/usr/bin/find", mfoto);
+  }
+  ```
+Pada proses ini, kita menggunakan find dengan -type f yaitu untuk menemukan semua data dengan tipe file, dan melakukan -exec mv untuk menggunakan perintah move yaitu memindahkan semua file yang telah di find sebelumnya kedalam folder Musyik, Fylm, Pyoto yang telah dibuat sebelumnya.<br>
+
 - **Penjelasan dan Penyelesaian Soal 1e**<br>
 - **Penjelasan dan Penyelesaian Soal 1f**<br>
 
 ## Kendala yang dialami selama mengerjakan soal no.1
+1. Pada saat ingin melakukan proses download file, file tidak terdownload karena fungsi execv kurang menggunakan `usr` untuk lokasi mengeksekusi.<br>
+2. pada sat mengerjakan soal 1e dan 1f tidak terdapat error saat memanggil proses namun proses tidak dapat berjalan.<br>
 
 ## Penjelasan dan Penyelesaian soal no.2
 Untuk penjelasan dan penyelesaian soal no 2 dibagi menjadi beberapa sub-nomer, yaitu:
