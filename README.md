@@ -215,6 +215,24 @@ Beberapa kendala yang kami alami selama mengerjakan soal no.2 antara lain : <br>
     
 ## Penjelasan dan Penyelesaian soal no.3
 - **Penjelasan dan Penyelesaian Soal 3a**<br>
+Pada soal 3a ini, diminta untuk membuat program C yang setiap mana setiap 40 detik membuat sebuah direktori dengan nama timestamp waktu saat ini dengan format [YYYY-mm-dd_HH:ii:ss].
+
+Pertama, perlu dideklarasikan variabel-variabel yang dibutuhkan, seperti rawtime, timeinfo, dan array char timestamp untuk keperluan pembuatan timestamp.
+    ```
+    time_t rawtime;
+    struct tm *timeinfo;
+    char timestamp[50] = {0};
+    ```
+Kemudian, membuat dideklarasikan child_id dan fork child_id tersebut untuk membuat proses baru. Pengecekan juga diatur untuk mengecek apakah proses baru berhasil dibuat. Lalu apabila child_id != 0 maka akan menuju parent.
+
+Program pada parent process, dilakukan iterasi while  infinite loop. Fungsi `time` berfungsi untuk mengembalikan waktu saat ini dan menaruh di variabel rawtime. Fungsi `localtime` berfungsi untuk mengembalikan representasi struct tm dari rawtime pada zona waktu lokal. Fungsi `strftime` berfungsi untuk memformat `timeinfo` menjadi `timestamp` sesuai format yang diinginkan, yakni `%Y-%m-%d_%X`.
+
+Lalu, dibuat sebuah direktori dengan nama berupa timestamp.
+    ```
+    int check = mkdir(timestamp, 0777);
+    ```
+Dan beri jeda proses iterasi dengan fungsi sleep. Atur menjadi 40 detik.
+
 - **Penjelasan dan Penyelesaian Soal 3b**<br>
 - **Penjelasan dan Penyelesaian Soal 3c**<br>
 - **Penjelasan dan Penyelesaian Soal 3d**<br>
